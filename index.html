@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Portafolio - Rodrigo Arturo Rodríguez Laura</title>
+
+  <!-- Fonts & icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a2e0e9c6a6.js" crossorigin="anonymous"></script>
+
+  <!-- External libs (CDN) -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r148/three.min.js"></script>
+  <script src="https://unpkg.com/@tensorflow/tfjs@4.8.0/dist/tf.min.js"></script>
+  <script src="https://unpkg.com/@tensorflow-models/mobilenet@2.1.0/dist/mobilenet.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <meta name="description" content="Portafolio profesional - Rodrigo Rodríguez | Desarrollo web y AI" />
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Visual backgrounds -->
+  <div id="particles-js" aria-hidden="true"></div>
+  <canvas id="three-canvas" aria-hidden="true"></canvas>
+
+  <!-- Audio (no autoplay forced) -->
+  <audio id="bg-music" src="assets/audio/music.mp3" loop preload="auto"></audio>
+
+  <!-- Header -->
+  <header>
+    <div class="container navbar">
+      <div class="logo">RodrigoDev</div>
+
+      <ul class="nav-links">
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#sobre-mi">Sobre Mí</a></li>
+        <li><a href="#habilidades">Habilidades</a></li>
+        <li><a href="#proyectos">Proyectos</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+
+      <div class="header-actions">
+        <button id="themeToggle" title="Cambiar tema" class="icon-btn" aria-label="Cambiar tema"><i class="fas fa-adjust"></i></button>
+        <button id="menuBtn" class="menu-btn icon-btn" aria-label="Abrir menú"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile nav -->
+  <nav class="mobile-nav hide" id="mobileNav" aria-hidden="true">
+    <a href="#inicio">Inicio</a>
+    <a href="#sobre-mi">Sobre Mí</a>
+    <a href="#habilidades">Habilidades</a>
+    <a href="#proyectos">Proyectos</a>
+    <a href="#contacto">Contacto</a>
+    <a id="music-toggle" href="#">Pausar Música</a>
+  </nav>
+
+  <main class="container">
+    <!-- HERO -->
+    <section id="inicio" class="home section">
+      <div class="home-content card">
+        <img src="assets/img/MiPerfil.png" alt="Rodrigo" class="perfil-img" id="profileImg">
+        <div class="hero-text">
+          <h1>Hola, soy <span>Rodrigo Arturo Rodríguez Laura</span></h1>
+          <p class="muted">Estudiante de Desarrollo de Software · Apasionado por IA, web y mobile.</p>
+          <div class="hero-actions">
+            <a class="btn" id="contactBtn">Contáctame</a>
+            <button class="btn ghost" id="ttsBtn"><i class="fas fa-play-circle"></i> Escuchar Intro</button>
+            <button class="btn ghost" id="voiceBtn"><i class="fas fa-microphone"></i> Voz</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOBRE MÍ -->
+    <section id="sobre-mi" class="section about">
+      <h2>Sobre Mí</h2>
+      <p class="muted">Soy estudiante de último ciclo en Desarrollo de Software en SENATI, con experiencia en desarrollo web, apps móviles y bases de datos. He trabajado en proyectos académicos y profesionales como Newton en Red y Producción y Abastecimiento Rodríguez.</p>
+      <div class="about-grid">
+        <div class="card tech-card">
+          <h3>Tecnologías</h3>
+          <div class="tech-list" id="techList"></div>
+        </div>
+
+        <div class="card">
+          <h3>Descargar CV</h3>
+          <p class="muted">Genera un CV PDF con la información principal.</p>
+          <button id="downloadCv" class="btn">Descargar CV (PDF)</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- HABILIDADES -->
+    <section id="habilidades" class="section skills">
+      <h2>Habilidades</h2>
+      <div class="skills-container">
+        <div class="skill"><span>HTML & CSS</span><div class="progress-bar"><div class="progress" data-progress="95%"></div></div></div>
+        <div class="skill"><span>JavaScript</span><div class="progress-bar"><div class="progress" data-progress="90%"></div></div></div>
+        <div class="skill"><span>PHP & MySQL</span><div class="progress-bar"><div class="progress" data-progress="85%"></div></div></div>
+        <div class="skill"><span>Java</span><div class="progress-bar"><div class="progress" data-progress="80%"></div></div></div>
+      </div>
+    </section>
+
+    <!-- PROYECTOS -->
+    <section id="proyectos" class="section projects">
+      <h2>Proyectos</h2>
+      <div class="projects-controls">
+        <button class="btn filter" data-filter="all">Todos</button>
+        <button class="btn filter" data-filter="web">Web</button>
+        <button class="btn filter" data-filter="mobile">Móvil</button>
+        <button class="btn filter" data-filter="ai">IA</button>
+        <button class="btn" id="openChatAi">Demo Chat IA</button>
+      </div>
+
+      <div class="projects-container" id="projectsGrid">
+        <div class="project-card card" data-type="mobile"><h3>Aplicación Móvil Newton</h3><p class="muted">Gestión interna — Flutter / Java</p></div>
+        <div class="project-card card" data-type="web"><h3>Página Web Empresarial</h3><p class="muted">Producción y Abastecimiento Rodríguez — PHP / MySQL</p></div>
+        <div class="project-card card" data-type="web"><h3>Sistema Registro Trabajadores</h3><p class="muted">CRUD en PHP y archivo .txt</p></div>
+        <div class="project-card card" data-type="ai"><h3>Demo IA - Clasificador de Imágenes</h3><p class="muted">Carga una imagen y el modelo MobileNet te dirá qué es.</p><button class="btn small" id="openAiDemo">Abrir Demo IA</button></div>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section id="contacto" class="section contact">
+      <h2>Contacto</h2>
+      <p class="muted">¡Hablemos sobre tu próximo proyecto!</p>
+      <div class="contact-links">
+        <a class="btn" href="mailto:rodrigoarturorodriguezlaura@gmail.com"><i class="fas fa-envelope"></i> Email</a>
+        <a class="btn" href="https://wa.me/51900628644" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        <a class="btn" href="https://github.com/rodrigo" target="_blank" rel="noopener"><i class="fab fa-github"></i> GitHub</a>
+      </div>
+
+      <div class="local-save">
+        <h3 class="muted">Guardar contacto localmente</h3>
+        <input id="contactName" placeholder="Nombre" />
+        <input id="contactEmail" placeholder="Correo" />
+        <button id="saveLocal" class="btn">Guardar</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>© 2025 Rodrigo Rodríguez | Portafolio Personal</p>
+    </div>
+  </footer>
+
+  <!-- Modales / UI extra -->
+  <div id="modalAi" class="modal hidden" aria-hidden="true">
+    <div class="panel">
+      <h3>Demo IA — Clasificador (MobileNet)</h3>
+      <p class="muted">Sube una imagen y el modelo te dirá qué contiene (requiere conexión a internet para cargar el modelo desde CDN).</p>
+      <input type="file" id="imgUpload" accept="image/*" />
+      <div id="previewWrap" style="margin-top:12px"></div>
+      <div id="aiResult" class="muted" style="margin-top:12px"></div>
+      <div style="margin-top:12px"><button id="closeAi" class="btn">Cerrar</button></div>
+    </div>
+  </div>
+
+  <div id="chatAi" class="modal hidden" aria-hidden="true">
+    <div class="panel chat-panel">
+      <h3>Chat IA (demo local)</h3>
+      <div id="chatWindow" class="chat-window" aria-live="polite"></div>
+      <div class="chat-input">
+        <input id="chatMessage" placeholder="Escribe algo (ej: dime un resumen de mis skills)" />
+        <button id="sendChat" class="btn">Enviar</button>
+        <button id="closeChat" class="btn ghost">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating buttons -->
+  <button id="scrollTop" class="fab hide" title="Subir arriba"><i class="fas fa-arrow-up"></i></button>
+  <button id="musicFab" class="fab" title="Control música">Pausar Música</button>
+
+  <script src="script.js"></script>
+</body>
+</html>
